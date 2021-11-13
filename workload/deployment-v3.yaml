@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:  
+  name: my-first-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:  
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - image: fpommerening/container-training:webapp-v3
+        name: app
