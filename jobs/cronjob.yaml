@@ -1,8 +1,16 @@
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: my-cronjob
 spec:
-  schedule:
+  schedule: "* * * * *"
   jobTemplate:
     spec:
+      activeDeadlineSeconds: 180
+      template:
+        spec:
+          containers:
+          - name: app
+            image: busybox:1.28
+            command: ["sh", "-c", "echo The app is running! && sleep 45 && echo The work is done!"]
+          restartPolicy: OnFailure

@@ -4,3 +4,32 @@ metadata:
   name: my-ingress
 spec:
   rules:
+    - host: citytrip.t.container-training.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: citytrip-app-srv
+                port:
+                  number: 80
+
+          - path: /internal
+            pathType: Prefix
+            backend:
+              service:
+                name: citytrip-internal-srv
+                port:
+                  number: 80
+                  
+    - host: assets.t.container-training.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: citytrip-assets-srv
+                port:
+                  number: 80
