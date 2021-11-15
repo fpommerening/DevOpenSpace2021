@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep-limiter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: limiter
+  template:
+    metadata:
+      labels:
+        app: limiter
+    spec:
+      containers:
+        - name: app
+          image: fpommerening/container-training:limiter

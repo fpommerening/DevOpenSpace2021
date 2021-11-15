@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: init-container-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: init-container-app
+  template:
+    metadata:
+      labels:
+        app: init-container-app
+    spec:
+      containers:

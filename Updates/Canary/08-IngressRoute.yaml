@@ -1,0 +1,9 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: canary-webapp-ingress-route
+spec:
+  entryPoints:
+    - web
+  routes:
+  

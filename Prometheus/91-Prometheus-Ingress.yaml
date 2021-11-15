@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus-route
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`prometheus.t.container-training.de`)
+    kind: Rule
+    services:
+    - name: prometheus-operated
+      namespace: monitoring
+      port: 9090

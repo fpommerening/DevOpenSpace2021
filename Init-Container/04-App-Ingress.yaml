@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: init-container-route
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`init.t.container-training.de`)
+    kind: Rule
+    services:
+    - name: init-container-srv
+      port: 80

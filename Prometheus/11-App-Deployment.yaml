@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autoscale-cafeteria-dep 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autoscale-cafeteria-app
+  template:
+    metadata:
+      labels:
+        app: autoscale-cafeteria-app        
+    spec:
+      containers:
+      - name: app
+        image: fpommerening/container-training:autoscale-cafeteria
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 80
+        env:
+        - name: ConnectionStrings__Default
+          value: "Server=autoscale-mariadb-service;User ID=root;Password=mypassword;Database=Cafeteria"
+
+        
