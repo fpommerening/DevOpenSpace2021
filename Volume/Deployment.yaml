@@ -15,6 +15,13 @@ spec:
       containers:
       - name: app
         image: fpommerening/docker-training:latest
+        volumeMounts:
+        - name: data
+          mountPath: "/usr/share/nginx/html/test"
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: my-share-pvc
         
 ---
 apiVersion: v1
@@ -25,4 +32,11 @@ spec:
   containers:
   - name: editor
     image: fpommerening/docker-training:editor
+    volumeMounts:
+    - name: data
+      mountPath: "/home"
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: my-share-pvc
         

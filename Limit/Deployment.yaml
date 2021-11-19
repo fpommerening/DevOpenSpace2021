@@ -15,3 +15,10 @@ spec:
       containers:
         - name: app
           image: fpommerening/container-training:limiter
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "0.50"
+            limits:
+              memory: "512Mi"
+              cpu: "1.0"

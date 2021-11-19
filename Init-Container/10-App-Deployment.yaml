@@ -13,3 +13,16 @@ spec:
         app: init-container-app
     spec:
       containers:
+      - name: app
+        image: fpommerening/container-training:initializer-main
+        env:
+          - name: MYSQL_CNN
+            value: "Server=mariadb-srv;Database=demo-database;Uid=root;Pwd=mypassword"
+      initContainers:
+      - name: dbinit
+        image: fpommerening/container-training:initializer-init
+        env:
+          - name: MYSQL_CNN
+            value: "Server=mariadb-srv;Database=demo-database;Uid=root;Pwd=mypassword"
+        args:
+          - "2"
