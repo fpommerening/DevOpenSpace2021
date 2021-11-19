@@ -2,3 +2,11 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: cafeteria-app-service-monitor
+  labels:
+    release: prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: autoscale-cafeteria-app
+  endpoints:
+  - port: http

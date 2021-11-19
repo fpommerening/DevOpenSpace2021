@@ -3,4 +3,18 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: cafeteria-autoscaler
 spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: autoscale-cafeteria-dep
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Pods
+      pods:
+        metric:
+          name: order_items_to_process_count
+        target:
+          type: AverageValue
+          averageValue: 10
   

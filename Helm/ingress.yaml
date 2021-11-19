@@ -1,0 +1,8 @@
+ingressRoute:
+  enabled: true
+  entryPoint: web
+  host: helm.t.container-training.de
+
+probe:
+  enabled: false
+

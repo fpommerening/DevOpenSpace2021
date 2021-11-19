@@ -2,6 +2,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: prometheus-route
+  namespace: monitoring
 spec:
   entryPoints:
     - web
@@ -10,5 +11,4 @@ spec:
     kind: Rule
     services:
     - name: prometheus-operated
-      namespace: monitoring
       port: 9090
