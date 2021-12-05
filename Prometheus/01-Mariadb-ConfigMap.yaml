@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  schema.sql: "USE Cafeteria;\n\nCREATE TABLE Orders\n(\n\tId \t\t\tINT \t\t\tNOT
+    NULL AUTO_INCREMENT PRIMARY KEY,\n    CreatedBy\tVARCHAR(100)\tNOT NULL,\n    CreatedOn\tDatetime\t\tNOT
+    NULL,\n    Count \t\tINT\t\t\t\tNOT NULL\n);\n\nCREATE TABLE OrderProcessings\n(\n\tId
+    \t\t\tBIGINT \t\t\tNOT NULL AUTO_INCREMENT PRIMARY KEY,\n\tWorker\t\tVARCHAR(100)\tNOT
+    NULL,\n\tStartedOn\tDATETIME\t\tNOT NULL,\n    FinishedOn\tDATETIME\t\tNULL,\n\tAborted
+    \   \tBIT\t\t\t\tNOT NULL,\n    OrderId\t\tINT\t\t\t\tNOT NULL,\n    \n    CONSTRAINT
+    `fk_Order`\n    FOREIGN KEY (OrderId) REFERENCES Orders (id)\n);\n\n"
+kind: ConfigMap
+metadata:
+  name: autoscale-mariadb-schema

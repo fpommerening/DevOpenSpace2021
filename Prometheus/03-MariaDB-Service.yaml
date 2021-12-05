@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: autoscale-mariadb-service
+  labels:
+    app: autoscale-mariadb-app
+spec:
+  selector:
+    app: autoscale-mariadb-app
+  ports:
+  - name: sql
+    port: 3306

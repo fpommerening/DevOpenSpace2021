@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: volume-web-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: volume-web-app
+  template:
+    metadata:
+      labels:
+        app: volume-web-app
+    spec:
+      containers:
+      - name: app
+        image: fpommerening/docker-training:latest
+        volumeMounts:
+        - name: data
+          mountPath: "/usr/share/nginx/html/test"
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: my-share-pvc
+        
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: editor-pod
+spec:
+  containers:
+  - name: editor
+    image: fpommerening/docker-training:editor
+    volumeMounts:
+    - name: data
+      mountPath: "/home"
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: my-share-pvc
+        

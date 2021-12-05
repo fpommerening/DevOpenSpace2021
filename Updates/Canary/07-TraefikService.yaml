@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: TraefikService
+metadata:
+  name: canary-webapp-traefik-service
+  namespace: default
+spec:
+  weighted:
+    services:
+    - name: webapp-v1-srv
+      port: 80
+      weight: 10
+    - name: webapp-v2-srv
+      port: 80
+      weight: 20
+    - name: webapp-v3-srv
+      port: 80
+      weight: 0
+    
