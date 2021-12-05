@@ -27,6 +27,9 @@ namespace FP.Monitoring.Trace.UI.Business
 
         public async Task<IReadOnlyList<ProductViewModel>> GetProducts()
         {
+            using var activity = DemoActivitySource.ActivitySource.StartActivity("GetProducts");
+            activity?.AddTag("class", nameof(OrderRepository));
+
             var client = _httpClientFactory.CreateClient("stockservice");
             var response = await client.GetAsync("Product");
             
@@ -43,6 +46,9 @@ namespace FP.Monitoring.Trace.UI.Business
 
         public async Task OrderProduct(Guid id, int quantity, string customer, string cardType, string cardNumber)
         {
+            using var activity = DemoActivitySource.ActivitySource.StartActivity("OrderProduct");
+            activity?.AddTag("class", nameof(OrderRepository));
+
             var stockClient = _httpClientFactory.CreateClient("stockservice");
             var productsResponse = await stockClient.GetAsync("Product");
             var products = JsonSerializer.Deserialize<Product[]>(await productsResponse.Content.ReadAsStringAsync(), _jsonSerializerOptions);

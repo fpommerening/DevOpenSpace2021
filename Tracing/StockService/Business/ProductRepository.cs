@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FP.Monitoring.Trace.Common;
 using FP.Monitoring.Trace.Common.Models;
 
 namespace FP.Monitoring.Trace.StockService.Business
@@ -45,12 +46,20 @@ namespace FP.Monitoring.Trace.StockService.Business
 
         public async Task<IReadOnlyList<Product>> GetProducts()
         {
+            using var activity = DemoActivitySource.ActivitySource.StartActivity("GetProducts");
+            activity?.AddTag("class", nameof(ProductRepository));
+            
             await Task.Delay(TimeSpan.FromMilliseconds(_random.Next(200, 500)));
             return items.AsReadOnly();
         }
 
         public async Task UpdateProducts(Guid id, int quantity)
         {
+            using var activity = DemoActivitySource.ActivitySource.StartActivity("UpdateProducts");
+            activity?.AddTag("class", nameof(ProductRepository));
+            activity?.AddTag("id", id);
+            activity?.AddTag("quantity", quantity);
+
             await Task.Delay(TimeSpan.FromMilliseconds(_random.Next(100, 200)));
             var product = items.FirstOrDefault(x => x.Id == id);
 

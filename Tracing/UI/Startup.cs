@@ -1,4 +1,5 @@
 using System;
+using FP.Monitoring.Trace.Common;
 using FP.Monitoring.Trace.UI.Business;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +22,8 @@ namespace FP.Monitoring.Trace.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            services.AddTracing("http://otel.t.container-training.de", "UI");
 
             services.AddSingleton<OrderRepository>();
 

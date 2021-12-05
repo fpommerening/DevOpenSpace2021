@@ -1,4 +1,5 @@
 using System;
+using FP.Monitoring.Trace.Common;
 using FP.Monitoring.Trace.PaymentService.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +32,10 @@ namespace FP.Monitoring.Trace.PaymentService
             {
                 c.BaseAddress = new Uri("http://master-service.demo-apps.de");
             });
+
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
+            services.AddTracing("http://otel.t.container-training.de", "PaymentService");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
