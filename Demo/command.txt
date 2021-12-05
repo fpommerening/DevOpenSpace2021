@@ -1,0 +1,1 @@
+helm upgrade --namespace trainer --install -f ./trainer.yaml --create-namespace dos ./monitoring-stack

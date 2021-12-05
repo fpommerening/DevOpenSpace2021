@@ -25,6 +25,9 @@ spec:
             - name: http
               containerPort: 9177
               protocol: TCP
+          volumeMounts:
+            - name: ssh-conf
+              mountPath: /etc/ssh/sshd_config.d
           env:
             - name: SSH_PASSWORD
               value: {{ .Values.password }}
