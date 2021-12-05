@@ -5,6 +5,7 @@ using FP.Monitoring.Metrics.Contract;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using Prometheus;
 
 namespace FP.Monitoring.Metrics.Services
 {
@@ -21,12 +22,17 @@ namespace FP.Monitoring.Metrics.Services
 
         public override async Task<GreetAttendeeResponse> GreetAttendee(GreetAttendeeRequest request, ServerCallContext context)
         {
-            var greeting = $"Hallo to {string.Join(',', request.Names)}";
-            await Task.Delay(TimeSpan.FromSeconds(new Random().Next(1, 5)));
-            return new GreetAttendeeResponse
+
+            using (MeeetupMetrics.GreetingDuration.NewTimer())
             {
-                Message = greeting
-            };
+                var greeting = $"Hallo to {string.Join(',', request.Names)}";
+                await Task.Delay(TimeSpan.FromSeconds(new Random().Next(1, 5)));
+                return new GreetAttendeeResponse
+                {
+                    Message = greeting
+                };
+            }
+           
         }
 
         public override async Task<ScheduleMeetupResponse> ScheduleMeetup(ScheduleMeetupRequest request, ServerCallContext context)

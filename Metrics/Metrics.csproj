@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.34.0" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="5.0.2" />
+    <PackageReference Include="prometheus-net.AspNetCore.Grpc" Version="4.1.1" />
   </ItemGroup>
 
 </Project>

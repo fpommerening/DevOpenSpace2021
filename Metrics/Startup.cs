@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prometheus;
 
 namespace FP.Monitoring.Metrics
 {
@@ -23,6 +24,7 @@ namespace FP.Monitoring.Metrics
             services.AddControllers();
             services.AddGrpc();
             services.AddSingleton<MeetupRepository>();
+            services.AddHostedService<MetricsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,11 +36,15 @@ namespace FP.Monitoring.Metrics
             }
 
             app.UseRouting();
+            app.UseGrpcMetrics();
+            app.UseHttpMetrics();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<MeetupService>();
                 endpoints.MapControllers();
+
+                endpoints.MapMetrics();
             });
         }
     }

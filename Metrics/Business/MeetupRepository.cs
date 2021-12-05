@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FP.Monitoring.Metrics.Business
@@ -18,6 +19,8 @@ namespace FP.Monitoring.Metrics.Business
                 Start = start,
                 End = end
             });
+
+            MeeetupMetrics.MeetupsCount.WithLabels(loaction).Inc();
 
             await Task.Delay(TimeSpan.FromMilliseconds(500));
         }
