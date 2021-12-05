@@ -1,0 +1,25 @@
+receivers:
+  otlp:
+    protocols:
+      grpc: null
+      http: null
+exporters:
+  jaeger:
+    endpoint: jaeger-collector:14250
+    tls:
+      insecure: true
+extensions:
+  health_check: {}
+processors:
+  batch: {}
+service:
+  extensions:
+  - health_check
+  pipelines:
+    traces:
+      exporters:
+      - jaeger
+      processors:
+      - batch
+      receivers:
+      - otlp

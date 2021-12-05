@@ -1,0 +1,69 @@
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+        - dos-alertmanager:9093
+
+  # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+- rules.yml
+  
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+  - job_name: "meetpup"
+    static_configs:
+    - targets: ['dos-jumpbox.trainer:9177']
+  # - job_name: "docker-node"
+  #  static_configs:
+  #  - targets: ['23.88.117.251:9100']
+  #    labels:
+  #      alias: 'docker-node'
+  #- job_name: "win-host"
+  #  static_configs:
+  #  - targets: ['ssh-jumpbox-svc.windows:9182']
+  #    labels:
+  #      alias: 'windows-node'
+  - job_name: "node"
+    file_sd_configs:
+    - files:
+      - 'node-discovery.json'
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    static_configs:
+      - targets:
+          - 23.88.117.251
+          - visa-service.demo-apps.de
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: dos-blackbox-exporter:9115
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+          - visa-service.demo-apps.de
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: dos-blackbox-exporter:9115
+  - job_name: 'mariadb'
+    static_configs:
+    - targets: ['mysqld-exporter-svc.database:9104']
